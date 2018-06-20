@@ -4155,11 +4155,9 @@ endfunction
 
 function! s:DB_SQLSRV_getListTable(table_prefix)
     return s:DB_SQLSRV_execSql(
-                \ "select convert(varchar,o.name), convert(varchar,u.name) ".
-                \ "  from sysobjects o, sysusers u ".
-                \ " where o.uid=u.uid ".
-                \ "   and o.xtype='U' ".
-                \ "   and o.name like '".a:table_prefix."%' ".
+                \ "SELECT convert(varchar,o.TABLE_SCHEMA), convert(varchar,o.TABLE_NAME) ".
+                \ "  from INFORMATION_SCHEMA.TABLES o ".
+                \ " where o.TABLE_NAME like '".a:table_prefix."%' ".
                 \ " order by o.name"
                 \ )
 endfunction
@@ -4187,12 +4185,10 @@ function! s:DB_SQLSRV_getListView(view_prefix)
 endfunction
 function! s:DB_SQLSRV_getDictionaryTable() "{{{
     let result = s:DB_SQLSRV_execSql(
-                \ "select ".(s:DB_get('dict_show_owner')==1?"convert(varchar,u.name)+'.'+":'').
-                \ "       convert(varchar,o.name) ".
-                \ "  from sysobjects o, sysusers u ".
-                \ " where o.uid=u.uid ".
-                \ "   and o.xtype='U' ".
-                \ " order by ".(s:DB_get('dict_show_owner')==1?"convert(varchar,u.name), ":'')."o.name"
+                \ "select ".(s:DB_get('dict_show_owner')==1?"convert(varchar,o.TABLE_SCHEMA)+'.'+":'').
+                \ "       convert(varchar,o.TABLE_NAmE) ".
+                \ "  from INFORMATION_SCHEMA.TABLES o ".
+                \ " order by ".(s:DB_get('dict_show_owner')==1?"convert(varchar,o.TABLE_SCHEMA), ":'')."o.TABLE_NAME"
                 \ )
     return s:DB_SQLSRV_stripHeaderFooter(result)
 endfunction "}}}
