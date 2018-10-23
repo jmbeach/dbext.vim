@@ -4137,18 +4137,15 @@ endfunction
 function! s:DB_SQLSRV_getListColumn(table_name)
     let owner      = s:DB_getObjectOwner(a:table_name)
     let table_name = s:DB_getObjectName(a:table_name)
-    let query =   "select convert(varchar,c.name) ".
-                \ "  from sysobjects o, sysusers u, syscolumns c ".
-                \ " where o.uid=u.uid ".
-                \ "   and o.id=c.id ".
-                \ "   and o.xtype='U' ".
-                \ "   and o.name = '".table_name."' "
+    let query =   "select convert(varchar,o.COLUMN_NAME) ".
+                \ "  from INFORMATION_SCHEMA.COLUMNS o ".
+                \ " where o.TABLE_NAME = '".table_name."' "
     if strlen(owner) > 0
         let query = query .
-                    \ "   and u.name = '".owner."' "
+                    \ "   and o.TABLE_SCHEMA = '".owner."' "
     endif
     let query = query .
-                \ " order by c.colid"
+                \ " order by o.COLUMN_NAME"
     let result = s:DB_SQLSRV_execSql( query )
     return s:DB_SQLSRV_stripHeaderFooter(result)
 endfunction
