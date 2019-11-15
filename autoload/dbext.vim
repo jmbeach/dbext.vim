@@ -102,7 +102,7 @@ function! dbext#DB_buildLists()
     call add(s:db_types_mv, 'HANA')
     " SAP Sybase IQ (fishburn)
     call add(s:db_types_mv, 'IQ')
-    " Crate (Mathias Fußenegger)
+    " Crate (Mathias Fuï¿½enegger)
     call add(s:db_types_mv, 'CRATE')
 
     " The following are only available with the
@@ -1319,7 +1319,7 @@ function! s:DB_varToString(name)
     endif
 endfunction
 
-"FIXME: Csinálni kell erre egy kommandot.
+"FIXME: Csinï¿½lni kell erre egy kommandot.
 function! s:DB_getParameters(scope)
     "scope must be 'b', 'g', 'd' (buffer, global, default)
     if (a:scope == "b")
@@ -2754,9 +2754,9 @@ function! s:DB_DB2_execSql(str)
     " In batch files I used the following
     "     -c close when done
     "     -w wait until command finishes
-    "     -i don’t spawn a new cmd window
-    "     -t don’t change the window title
-    "     db2cmd -c -w -i –t “db2 -s -t ; -v -f dave.sql”
+    "     -i donï¿½t spawn a new cmd window
+    "     -t donï¿½t change the window title
+    "     db2cmd -c -w -i ï¿½t ï¿½db2 -s -t ; -v -f dave.sqlï¿½
     " To see command line options
     "     cd IBM\SQLLIB\BIN
     "     db2cmd -w -i
@@ -4154,8 +4154,8 @@ function! s:DB_SQLSRV_getListTable(table_prefix)
     return s:DB_SQLSRV_execSql(
                 \ "SELECT convert(varchar,o.TABLE_SCHEMA), convert(varchar,o.TABLE_NAME) ".
                 \ "  from INFORMATION_SCHEMA.TABLES o ".
-                \ " where o.TABLE_NAME like '".a:table_prefix."%' ".
-                \ " order by o.name"
+                \ " where o.TABLE_NAME like '%".a:table_prefix."%' ".
+                \ " order by o.TABLE_NAME"
                 \ )
 endfunction
 
